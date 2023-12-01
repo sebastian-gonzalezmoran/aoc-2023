@@ -29,6 +29,6 @@ const run = (path) => {
    readFile(path, callback);
 }
 
-run('./one/sample_silver.txt');
-run('./one/sample_gold.txt');
-run('./one/input.txt');
+run('./day01/sample_silver.txt');
+run('./day01/sample_gold.txt');
+run('./day01/input.txt');
