@@ -1,4 +1,5 @@
 const fs = require('node:fs');
+const path = require('node:path');
 
 const extract = (arr) => {
    const nbStrMap = new Map([['zero','0'], ['one', '1'], ['two', '2'], ['three', '3'], ['four', '4'], ['five', '5'], ['six', '6'], ['seven', '7'], ['eight', '8'], ['nine', '9']]);
@@ -10,8 +11,8 @@ const formatToArray = (input) => {
    return input.split('\n');
 }
 
-const readFile = (path, callback) => {
-   fs.readFile(path, 'utf8', (err, data) => {
+const readFile = (filename, callback) => {
+   fs.readFile(path.join(__dirname, filename), 'utf8', (err, data) => {
      if (err) {
        console.error('Error:', err);
        return;
@@ -20,15 +21,15 @@ const readFile = (path, callback) => {
    });
 }
 
-const run = (path) => {
+const run = (filename) => {
    const callback = (data) => {
       console.time();
       console.log(`Response: ${extract(formatToArray(data))}`);
       console.timeEnd();
    };
-   readFile(path, callback);
+   readFile(filename, callback);
 }
 
-run('./day01/sample_silver.txt');
-run('./day01/sample_gold.txt');
-run('./day01/input.txt');
+run('sample_silver.txt');
+run('sample_gold.txt');
+run('input.txt');
