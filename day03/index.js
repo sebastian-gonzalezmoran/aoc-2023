@@ -46,75 +46,100 @@ const extractS = (arr) => {
    return sum;
 }
 
-const getPosAroundG = (x, y) => {
-   if((x - 1) < 0) {
-      if(y - 1 < 0) {
-         return [
-            `${x},${y}`, `${x},${y+1}`,
-            , `${x+1},${y}`, `${x+1},${y+1}`];             
-      }
-      else {
-         return [
-            `${x},${y-1}`, `${x},${y}`, `${x},${y+1}`,
-            `${x+1},${y-1}`, `${x+1},${y}`, `${x+1},${y+1}`];   
-      }
-  
-   } else {
-      if(y - 1 < 0) {
-         return [
-            `${x-1},${y}`, `${x-1},${y+1}`,
-            `${x},${y}`, `${x},${y+1}`,
-            `${x+1},${y}`, `${x+1},${y+1}`];
-      } else {
-         return [
-            `${x-1},${y-1}`, `${x-1},${y}`, `${x-1},${y+1}`,
-            `${x},${y-1}`, `${x},${y}`, `${x},${y+1}`,
-            `${x+1},${y-1}`, `${x+1},${y}`, `${x+1},${y+1}`];
-      }
-   }
-}
-
-const extractG = (arr) => {
-   let sum = 0;
-
-   const speCharPositions = new Map();
-   const numPositions = new Map();
-
-   let index = 0;
-   arr.forEach((line, i) => {
-      const speCharMatch = [...line.trim().matchAll(/(\*)/g)];
-      speCharMatch.forEach((m) => {
-         speCharPositions.set(index, new Set(getPosAroundG(i, m.index)));
-         index++;
-      });
-
-      const numCharMatch = [...line.trim().matchAll(/([\d]+)/g)];
-      numCharMatch.forEach((m) => {
-         numPositions.set(`${i},${m.index}`, `${m[0]}`);
-      });
-   });
-
-   // console.log(numPositions);
-   speCharPositions.forEach((speV, speK) => {
-      const occ = [];
-      numPositions.forEach((numV, numK) => {
-         const len = numV.length;
-         for (let i = 0; i < len; i++) {
-            const split = numK.split(',');
-            if(speV.has(`${split[0]},${Number(split[1])+i}`)) {
-               occ.push(numV);
-               break;
-            }
-         }
-      });
-      if(occ.length === 2) sum += occ.reduce((acc, v) => acc * Number(v), 1);
-   });
-   return sum;
-}
-
 const formatToArray = (input) => {
    return input.split('\n');
 }
+
+
+const getNumberLeft = (i, input) => {
+   let s = '';
+   while(Number(input[i]) >= 0) {
+      s = input[i] + s;
+      i -= 1;
+   }
+   return s;
+};
+const getNumberRight = (i, input) => {
+   let s = '';
+   while(Number(input[i]) >= 0) {
+      s = s + input[i];
+      i += 1;
+   }
+   return s;
+};
+const getNumberLeftAndRight = (i, input) => {
+   return getNumberLeft(i - 1, input) + input[i] + getNumberRight(i + 1, input);
+} 
+
+const extractG = (input) => {
+   let sum = 0;
+
+   let line = 0;
+   let mod = 0;
+   const speCharMatch = [...input.matchAll(/([\*\n])/g)];
+   speCharMatch.forEach((match) => {
+      const char = match[0];
+      const index = match.index;
+      if(char === '\n') {
+         mod = (index + 1) - (mod * line);
+         line++;
+      } else {
+         let i;
+         const arr = [];
+
+         //Left
+         i = index - 1;
+         if(Number(input[i] >= 0)) {
+            arr.push(getNumberLeft(i, input))
+         }
+
+         //Right
+         i = index + 1;
+         if(Number(input[i])) {
+            arr.push(getNumberRight(i, input));
+         }
+
+         //Top
+         i = index - mod;
+         if(Number(input[i] >= 0)) {
+            arr.push(getNumberLeftAndRight(i, input));
+         }
+         else {
+            //Left
+            if(Number(input[i-1] >= 0)) {
+               arr.push(getNumberLeft(i-1, input));
+            }
+            //Right
+            if(Number(input[i+1] >= 0)) {
+               arr.push(getNumberRight(i+1, input));
+            }
+         }
+
+         //Bottom
+         i = index + mod;
+         if(Number(input[i] >= 0)) {
+            arr.push(getNumberLeftAndRight(i, input));
+         }
+         else {
+            //Left
+            if(Number(input[i-1] >= 0)) {
+               arr.push(getNumberLeft(i-1, input));
+            }
+            //Right
+            if(Number(input[i+1] >= 0)) {
+               arr.push(getNumberRight(i+1, input));
+            }
+         }
+         
+         if(arr.length === 2) {
+            sum += arr.reduce((acc, v) => acc * Number(v), 1);
+         }
+      }
+   })
+   return sum;
+}
+
+
 
 const readFile = (filename, callback) => {
    fs.readFile(path.join(__dirname, filename), 'utf8', (err, data) => {
@@ -138,7 +163,7 @@ const runS = (filename) => {
 const runG = (filename) => {
    const callback = (data) => {
       console.time();
-      console.log(`Response Gold ${filename}: ${extractG(formatToArray(data))}`);
+      console.log(`Response Gold ${filename}: ${extractG(data)}`);
       console.timeEnd();
    };
    readFile(filename, callback);
