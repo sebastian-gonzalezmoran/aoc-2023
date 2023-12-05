@@ -169,7 +169,7 @@ const runG = (filename) => {
    readFile(filename, callback);
 }
 
-runS('sample_silver.txt');
-runG('sample_gold.txt');
+runS('sample.txt');
+runG('sample.txt');
 runS('input.txt');
 runG('input.txt');

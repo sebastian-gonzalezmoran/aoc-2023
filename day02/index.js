@@ -73,7 +73,7 @@ const runG = (filename, totalCubes) => {
    readFile(filename, callback);
 }
 
-runS('sample_silver.txt', new Map([['red',12], ['green', 13], ['blue', 14]]));
-runG('sample_gold.txt', new Map([['red',12], ['green', 13], ['blue', 14]]));
+runS('sample.txt', new Map([['red',12], ['green', 13], ['blue', 14]]));
+runG('sample.txt', new Map([['red',12], ['green', 13], ['blue', 14]]));
 runS('input.txt', new Map([['red',12], ['green', 13], ['blue', 14]]));
 runG('input.txt', new Map([['red',12], ['green', 13], ['blue', 14]]));
