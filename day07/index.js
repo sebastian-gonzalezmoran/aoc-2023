@@ -112,20 +112,20 @@ const extractG = (input) => {
       fiveOfKind.push([cards, bet]);
     }
     else if(sortedCards[0] === sortedCards[3]) { //FOUR OF KIND XXXXY
-      if (sortedCards[4] === 'J')
+      if (sortedCards[0] === 'J' || sortedCards[4] === 'J')
         fiveOfKind.push([cards, bet]);
       else 
         fourOfKind.push([cards, bet]);
     }
     else if (sortedCards[1] === sortedCards[4]) { //FOUR OF KIND YXXXX
-      if (sortedCards[0] === 'J')
+      if (sortedCards[0] === 'J' || sortedCards[4] === 'J')
         fiveOfKind.push([cards, bet]);
       else 
         fourOfKind.push([cards, bet]);
     }
     else if (sortedCards[0] === sortedCards[2]) { //THREE OF KIND OR FULLHOUSE XXXYY
       if (sortedCards[3] === sortedCards[4]) { //FULLHOUSE
-        if (sortedCards[0] === 'J' || sortedCards[3] === 'J')
+        if (sortedCards[0] === 'J' || sortedCards[4] === 'J')
           fiveOfKind.push([cards, bet]);
         else
           fullHouse.push([cards, bet]);
@@ -151,46 +151,65 @@ const extractG = (input) => {
           threeOfKind.push([cards, bet]);
       }
     }
-    else if (sortedCards[1] === sortedCards[3]) { //THREE OF KIND YXXXY
-      if (sortedCards[0] === 'J' || sortedCards[4] === 'J' || sortedCards[1] === 'J')
+    else if (sortedCards[1] === sortedCards[3]) { //THREE OF KIND YXXXZ
+      if (sortedCards[0] === 'J' || sortedCards[1] === 'J' || sortedCards[4] === 'J')
         fourOfKind.push([cards, bet]);
       else
         threeOfKind.push([cards, bet]);
     }
     else if (sortedCards[0] === sortedCards[1] && sortedCards[2] === sortedCards[3]) { //TWO PAIRS XXYYZ
-      if (sortedCards[0] === 'J' || sortedCards[2] === 'J') fourOfKind.push([cards, bet]);
-      else if (sortedCards[4] === 'J') fullHouse.push([cards, bet]);
-      else twoPair.push([cards, bet]);
+      if (sortedCards[0] === 'J' || sortedCards[2] === 'J')
+        fourOfKind.push([cards, bet]);
+      else if (sortedCards[4] === 'J')
+        fullHouse.push([cards, bet]);
+      else
+        twoPair.push([cards, bet]);
     }
     else if (sortedCards[0] === sortedCards[1] && sortedCards[3] === sortedCards[4]) { //TWO PAIRS XXZYY
-      if (sortedCards[0] === 'J' || sortedCards[3] === 'J') fourOfKind.push([cards, bet]);
-      else if (sortedCards[2] === 'J') fullHouse.push([cards, bet]);
-      else twoPair.push([cards, bet]);
+      if (sortedCards[0] === 'J' || sortedCards[3] === 'J')
+        fourOfKind.push([cards, bet]);
+      else if (sortedCards[2] === 'J')
+        fullHouse.push([cards, bet]);
+      else
+        twoPair.push([cards, bet]);
     }
-    else if (sortedCards[1] === sortedCards[2] && sortedCards[3] === sortedCards[4]) {//TWO PAIRS ZXXYY
-      if (sortedCards[1] === 'J' || sortedCards[3] === 'J') fourOfKind.push([cards, bet]);
-      else if (sortedCards[0] === 'J') fullHouse.push([cards, bet]);
-      else twoPair.push([cards, bet]);
+    else if (sortedCards[1] === sortedCards[2] && sortedCards[3] === sortedCards[4]) { //TWO PAIRS ZXXYY
+      if (sortedCards[1] === 'J' || sortedCards[3] === 'J')
+        fourOfKind.push([cards, bet]);
+      else if (sortedCards[0] === 'J')
+        fullHouse.push([cards, bet]);
+      else
+        twoPair.push([cards, bet]);
     }
-    else if (sortedCards[0] === sortedCards[1]) { //ONE PAIR XXYYY 
-      if (sortedCards[0] === 'J' || sortedCards[2] === 'J' || sortedCards[3] === 'J' || sortedCards[4] === 'J') threeOfKind.push([cards, bet]);
-      else onePair.push([cards, bet]);
+    else if (sortedCards[0] === sortedCards[1]) { //ONE PAIR XXYYY
+      if (sortedCards[0] === 'J' || sortedCards[2] === 'J' || sortedCards[3] === 'J' || sortedCards[4] === 'J')
+        threeOfKind.push([cards, bet]);
+      else
+        onePair.push([cards, bet]);
     }
     else if (sortedCards[1] === sortedCards[2]) { //ONE PAIR YXXYY
-      if (sortedCards[0] === 'J' || sortedCards[1] === 'J' || sortedCards[3] === 'J' || sortedCards[4] === 'J') threeOfKind.push([cards, bet]);
-      else onePair.push([cards, bet]);
+      if (sortedCards[0] === 'J' || sortedCards[1] === 'J' || sortedCards[3] === 'J' || sortedCards[4] === 'J')
+        threeOfKind.push([cards, bet]);
+      else
+        onePair.push([cards, bet]);
     }
     else if (sortedCards[2] === sortedCards[3]) { //ONE PAIR YYXXY
-      if (sortedCards[0] === 'J' || sortedCards[1] === 'J' || sortedCards[2] === 'J' || sortedCards[4] === 'J') threeOfKind.push([cards, bet]);
-      else onePair.push([cards, bet]);
+      if (sortedCards[0] === 'J' || sortedCards[1] === 'J' || sortedCards[2] === 'J' || sortedCards[4] === 'J')
+        threeOfKind.push([cards, bet]);
+      else
+        onePair.push([cards, bet]);
     }
     else if (sortedCards[3] === sortedCards[4]) { //ONE PAIR YYYXX
-      if (sortedCards[0] === 'J' || sortedCards[1] === 'J' || sortedCards[2] === 'J' || sortedCards[3] === 'J') threeOfKind.push([cards, bet]);
-      else onePair.push([cards, bet]);
+      if (sortedCards[0] === 'J' || sortedCards[1] === 'J' || sortedCards[2] === 'J' || sortedCards[3] === 'J')
+        threeOfKind.push([cards, bet]);
+      else
+        onePair.push([cards, bet]);
     }
     else { //FLUSH
-      if (sortedCards[0] === 'J' || sortedCards[1] === 'J' || sortedCards[2] === 'J' || sortedCards[3] === 'J' || sortedCards[4] === 'J') onePair.push([cards, bet]);
-      else highCard.push([cards, bet]);
+      if (sortedCards[0] === 'J' || sortedCards[1] === 'J' || sortedCards[2] === 'J' || sortedCards[3] === 'J' || sortedCards[4] === 'J')
+        onePair.push([cards, bet]);
+      else
+        highCard.push([cards, bet]);
     }
   });
 
@@ -201,35 +220,6 @@ const extractG = (input) => {
   rank.push(...fullHouse.sort(rankSort));
   rank.push(...fourOfKind.sort(rankSort));
   rank.push(...fiveOfKind.sort(rankSort));
-
-  // console.log('FIVE:',fiveOfKind.filter(v => v[0].match(/J/g)).map(v => {
-  //   let temp = v[0].replace(/J/g,'Z').split('').sort().join('');
-  //   return temp.replace(/Z/g, temp[0]).split('').sort().join('');
-  // }).sort());
-  // console.log('FOUR:',fourOfKind.filter(v => v[0].match(/J/g)).map(v => {
-  //   let temp = v[0].replace(/J/g,'Z').split('').sort().join('');
-  //   return temp.replace(/Z/g, temp[1]).split('').sort().join('');
-  // }).sort());
-  // console.log('FULL:',fullHouse.filter(v => v[0].match(/J/g)).map(v => {
-  //   let temp = v[0].replace(/J/g,'Z').split('').sort().join('');
-  //   return temp;
-  // }).sort());
-  // console.log('THREE:',threeOfKind.filter(v => v[0].match(/J/g)).map(v => {
-  //   let temp = v[0].replace(/J/g,'Z').split('').sort().join('');
-  //   return temp;
-  // }).sort());
-  // console.log('TWO:',twoPair.filter(v => v[0].match(/J/g)).map(v => {
-  //   let temp = v[0].replace(/J/g,'Z').split('').sort().join('');
-  //   return temp;
-  // }).sort());
-  // console.log('ONE:',onePair.filter(v => v[0].match(/J/g)).map(v => {
-  //   let temp = v[0].replace(/J/g,'Z').split('').sort().join('');
-  //   return temp;
-  // }).sort());
-  // console.log('HIGH:',highCard.filter(v => v[0].match(/J/g)).map(v => {
-  //   let temp = v[0].replace(/J/g,'Z').split('').sort().join('');
-  //   return temp;
-  // }).sort());
 
   rank.forEach((v, i) => {
     sum += v[1] * (i + 1);
@@ -254,7 +244,7 @@ const runS = (filename) => {
 const runG = (filename) => {
   const callback = (data) => {
     console.time();
-    console.log(`Response Gold ${filename}: ${extractG(data)}  (248750699)`);
+    console.log(`Response Gold ${filename}: ${extractG(data)}`);
     console.timeEnd();
   };
   readFile(filename, callback);
