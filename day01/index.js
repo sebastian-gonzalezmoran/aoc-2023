@@ -12,14 +12,9 @@ const formatToArray = (input) => {
 }
 
 const readFile = (filename, callback) => {
-   fs.readFile(path.join(__dirname, filename), 'utf8', (err, data) => {
-     if (err) {
-       console.error('Error:', err);
-       return;
-     }
-     callback(data);
-   });
-}
+   let data  = fs.readFileSync(path.join(__dirname, filename), "utf8");
+   callback(data);
+ };
 
 const run = (filename) => {
    const callback = (data) => {
